@@ -3,6 +3,8 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <cmath>
+#include <iostream>
 
 // including opengl libraries
 #include <GL/glew.h>
@@ -12,6 +14,7 @@
 // including custom library
 #include "vec.h"
 #include "pointGen.h"
+#include "davide.h"
 
 
 #endif // GLOBAL_H

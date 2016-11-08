@@ -1,9 +1,9 @@
 #include "pointGen.h"
 
+const int NumPoints = 10000;
 typedef vec2 point2;
 
 void init() {
-	const int NumPoints = 5000;
 	point2 points[NumPoints];
 
 	// triangle in plane z = 0
@@ -90,6 +90,6 @@ void init() {
 
 void display() {
 	glClear( GL_COLOR_BUFFER_BIT);
-	glDrawArrays( GL_POINTS, 0, 500);
+	glDrawArrays( GL_POINTS, 0, NumPoints);
 	glFlush();
 }
