@@ -1,95 +1,78 @@
 #include "pointGen.h"
 
-const int NumPoints = 10000;
-typedef vec2 point2;
+const int times_to_subdivide = 5;
+const int num_triangles = 729; // 3^5 triangles
+const int num_vertices = 3 * num_triangles;
+vec2 points[num_vertices];
+int Index = 0;
 
 void init() {
-	point2 points[NumPoints];
-
-	// triangle in plane z = 0
-
-	point2 vertices[3]= {point2(-1.0, -1.0), point2(0.0, 1.0), point2(1.0, -1.0)};
-
-	points[0] = point2( 0.25, 0.50);
-
-	for( int k = 1; k < NumPoints; ++k) {
-		int j = rand() % 3; // pick random vertex
-
-		// calculate halfway point between vertex and previous point
-		points[k] = ( points[k-1]+vertices[j])/2.0;
-	}
- 
-
-	GLuint abuffer; // Starting generation of vertex-array object
-
-	glGenVertexArrays(1, &abuffer); // generate unused identifier
-	glBindVertexArray(abuffer);
-
-
-	GLuint buffer;  // Generation of buffer object on GPU
-
-	glGenBuffers(1, &buffer);
-	glBindBuffer(GL_ARRAY_BUFFER, buffer);				 // creates buffer with identifier
-										   				 //! from glGenBuffers
-	glBufferData(GL_ARRAY_BUFFER, sizeof(points),
-				points, GL_STATIC_DRAW);  // allocates GPU memory for our data
-
-	// SPHERE
-	
-	/*const float DegreesToRadians = M_PI / 180.0;
-
-	point3 quad_data[342];  // 8 rows of 18 quads
-
-	int k = 0;
-	for( float phi = -80.0; phi <= 80.0; phi += 20.00) {
-		float phir = phi*DegreesToRadians;
-		float phir20 = (phi + 20.0)*DegreesToRadians;
-
-		for( float theta = -180.0; theta <= 180.0; theta += 20.0) {
-			float thetar = theta*DegreesToRadians;
-			quad_data[k] = point3( sin(thetar)*cos(phir), cos(thetar)*cos(phir),
-									sin(phir));
-
-			k++;
-			quad_data[k] = point3(sin(thetar)*cos(phir20), cos(thetar)*cos(phir20),
-									sin(phir20));
-			k++;
-		}
-	}
-
-	k = 0;
-	point3 strip_data[40];
-
-	strip_data[k] = point3( 0.0, 0.0, 1.0);
-	k++;
-
-	float sin80 = sin(80.0*DegreesToRadians);
-	float cos80 = cos(80.0*DegreesToRadians);
-
-	for(float theta = -180.0; theta <= 180.0; theta += 20.0) {
-		float thetar = theta*DegreesToRadians;
-		strip_data[k] = point3(sin(thetar)*cos80, cos(thetar)*cos80, sin80);
-
-		k++;
-	}
-
-	strip_data[k] = point3(0.0, 0.0, -1.0);
-	k++;
-
-	for( float theta = -180.0; theta <= 180.0; theta += 20.0) {
-		float thetar = theta;
-		strip_data[k] = point3( sin(thetar)*cos80,cos(thetar)*cos80, sin80);
-
-		k++;
-	}
-
-	glClearColor(1.0, 1.0, 1.0, 1.0);
-	glPointSize(2.0); */
+	point2 v[3] = { point2(-1.0, -1.0), point2( 0.0, 1.0), point2( 1.0, -1.0)};
+	divide_triangle( v[0], v[1], v[2], times_to_subdivide);
+	startBuffer();
+	display();
 }
 
 
+// ------------------------------------------------------------------------------
+//! specifies vertices for a triangle
+void triangle( point2 a, point2 b, point2 c) {
+	points[ Index++] = a;
+	points[ Index++] = b;
+	points[ Index++] = c;
+}
+
+// ------------------------------------------------------------------------------
+//! divides given triangle if k != 0
+void divide_triangle( point2 a, point2 b, point2 c, int k) {
+	if( k > 0) {
+		// calculate midpoints of sides
+
+		point2 ab = ( a + b)/2.0;
+		point2 ac = ( a + c)/2.0;
+		point2 bc = ( a + c)/2.0;
+
+		// subdivide all triangles but inner
+
+		divide_triangle( a, ab, ac, k-1);
+		divide_triangle( c, ac, bc, k-1);
+		divide_triangle( b, bc, ab, k-1);
+	}
+	else triangle( a, b, c); /* draw triangle at end of recursion */
+}
+
+
+// -------------------------------------------------------------------------------
+//! sends data to GPU
+void startBuffer() {
+	GLuint program = InitShader( "vshader.glsl", "fshader.glsl");
+	glUseProgram( program);
+
+	GLuint a_buffer;
+
+	glGenVertexArrays(1, &a_buffer); /* get identifier */
+	glBindVertexArray( a_buffer);
+
+	
+	GLuint b_buffer;
+
+	glGenBuffers(1, &b_buffer);
+	glBindBuffer( GL_ARRAY_BUFFER, b_buffer); /* creates buffer with given id */
+	glBufferData( GL_ARRAY_BUFFER, sizeof( points), points, GL_STATIC_DRAW);
+				/* allocates memory */
+
+	GLuint loc = glGetAttribLocation( program, "vPosition");
+	glEnableVertexAttribArray( loc);
+	glVertexAttribPointer( loc, 2, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0) );
+
+	glClearColor( 0.0, 0.05, 0.1, 1.0); 
+}
+
+
+// -------------------------------------------------------------------------------
+//! renders image
 void display() {
-	glClear( GL_COLOR_BUFFER_BIT);
-	glDrawArrays( GL_POINTS, 0, NumPoints);
+	glClear(GL_COLOR_BUFFER_BIT);
+	glDrawArrays( GL_TRIANGLES, 0, num_triangles);
 	glFlush();
 }
