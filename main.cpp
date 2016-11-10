@@ -2,12 +2,18 @@
 
 int main( int argc, char** argv) {
 	glutInit( &argc, argv);
-	glutInitDisplayMode( GLUT_RGBA );
+	glutInitDisplayMode( GLUT_RGBA);
 	glutInitWindowSize( 512, 512);
-	glutInitWindowPosition( 0, 0);
-	glutCreateWindow( "OpenGL example");
-	glewInit();
+	glutCreateWindow( argv[0]);
+
+	if( glewInit()) {
+		std::cerr << "Unable to initalize GLEW ... exiting" << std::endl;
+		exit( EXIT_FAILURE);
+	}
+
 	init();
-	glutDisplayFunc(display);
+
+	glutDisplayFunc( display);
+
 	glutMainLoop();
 }

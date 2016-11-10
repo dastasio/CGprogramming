@@ -13,8 +13,8 @@
 
 // including custom library
 #include "vec.h"
-#include "pointGen.h"
 #include "davide.h"
+#include "triangles.h"
 
 
 #endif // GLOBAL_H
