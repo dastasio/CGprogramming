@@ -16,7 +16,7 @@ void init() {
 
 // ------------------------------------------------------------------------------
 //! specifies vertices for a triangle
-void triangle( point2 a, point2 b, point2 c) {
+void triangle( const point2 &a, const point2 &b,const point2 &c) {
 	points[ Index++] = a;
 	points[ Index++] = b;
 	points[ Index++] = c;
@@ -24,7 +24,7 @@ void triangle( point2 a, point2 b, point2 c) {
 
 // ------------------------------------------------------------------------------
 //! divides given triangle if k != 0
-void divide_triangle( point2 a, point2 b, point2 c, int k) {
+void divide_triangle(const point2 &a, const point2 &b,const point2 &c, int k) {
 	if( k > 0) {
 		// calculate midpoints of sides
 

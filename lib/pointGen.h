@@ -9,8 +9,8 @@ extern const int num_vertices;
 typedef vec2 point2;
 
 void init();
-void triangle( point2 a, point2 b, point2 c);
-void divide_triangle( point2 a, point2 b, point2 c, int k);
+void triangle(const point2 &a, const point2 &b, const point2 &c);
+void divide_triangle( const point2 &a, const point2 &b, const point2 &c, int k);
 void startBuffer();
 void display();
 
