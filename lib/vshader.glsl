@@ -1,5 +1,5 @@
 in vec4 vPosition;
 
-void main() {
+int main() {
 	gl_Position = vPosition;
 }

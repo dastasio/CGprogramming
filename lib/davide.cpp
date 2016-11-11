@@ -1,7 +1,7 @@
 #include "davide.h"
 
-// read file in a NULL-terminated string
-static char* readShaderSource( const char* shaderFile) {
+// read file in a string
+static char* readSource( const char* shaderFile) {
 	FILE* fp = fopen( shaderFile, "r");
 
 	if( fp == NULL) { return NULL; }
@@ -9,29 +9,27 @@ static char* readShaderSource( const char* shaderFile) {
 	fseek( fp, 0L, SEEK_END);
 	long size = ftell(fp);
 
-	fseek(fp, 0L, SEEK_SET);
+	fseek( fp, 0L, SEEK_SET);
 	char* buf = new char[size + 1];
 	fread( buf, 1, size, fp);
 
 	buf[size] = '\0';
 	fclose(fp);
-	
-	// DEBUGGING HELPprintf( "%s\n\n", buf);
+
 	return buf;
 }
 
-// create GLSL program object from vertex and fragment shaders
 GLuint InitShader( const char* vShaderFile, const char* fShaderFile) {
 	struct Shader {
-		const char*	filename;
-		GLenum		type;
-		GLchar*		source;
+		const char*		filename;
+		GLenum			type;
+		GLchar*			source;
 	} shaders[2] = {
 		{	vShaderFile, GL_VERTEX_SHADER, NULL },
 		{	fShaderFile, GL_FRAGMENT_SHADER, NULL }
 	};
 
-	GLuint program = glCreateProgram( );
+	GLuint program = glCreateProgram();
 
 	for( int i = 0; i < 2; ++i) {
 		Shader& s = shaders[i];
@@ -45,12 +43,12 @@ GLuint InitShader( const char* vShaderFile, const char* fShaderFile) {
 		glShaderSource( shader, 1, (const GLchar**) &s.source, NULL);
 		glCompileShader( shader);
 
-		GLint compiled;
+		GLuint compiled;
 		glGetShaderiv( shader, GL_COMPILE_STATUS, &compiled);
 		if( !compiled) {
 			std::cerr << s.filename << ", failed to compile:" << std::endl;
 			GLint logSize;
-			glGetShaderiv( shader, GL_INFO_LOG_LENGTH, &logSize);
+			glGetShaderiv( shader, GL_INFO_LOG_LENGHT, &logSize);
 			char* logMsg = new char[logSize];
 			glGetShaderInfoLog( shader, logSize, NULL, logMsg);
 			std::cerr << logMsg << std::endl;
@@ -63,11 +61,10 @@ GLuint InitShader( const char* vShaderFile, const char* fShaderFile) {
 		glAttachShader( program, shader);
 	}
 
-	// link and error check
 	glLinkProgram( program);
 
 	GLint linked;
-	glGetProgramiv( program, GL_LINK_STATUS, &linked );
+	glGetProgramiv( program, GL_LINK_STATUS, &linked);
 	if( !linked) {
 		std::cerr << "Shader program failed to link" << std::endl;
 		GLint logSize;
@@ -80,7 +77,6 @@ GLuint InitShader( const char* vShaderFile, const char* fShaderFile) {
 		exit( EXIT_FAILURE);
 	}
 
-	// use program object
 	glUseProgram( program);
 
 	return program;
