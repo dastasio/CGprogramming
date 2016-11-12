@@ -2,21 +2,25 @@
 
 const int NumPoints = 10000;
 typedef vec2 point2;
+typedef vec3 point3;
 
 void init() {
-	point2 points[NumPoints];
+	point3 points[NumPoints];
 
 	// triangle in plane z = 0
 
-	point2 vertices[3]= {point2(-1.0, -1.0), point2(0.0, 1.0), point2(1.0, -1.0)};
+	point3 vertices[4]= { point3( -1.0, -1.0, -1.0), 
+						  point3(  1.0,  1.0, -1.0), 
+						  point3(  0.0,  1.0, -1.0),
+						  point3(  0.0,  0.0,  1.0) };
 
-	points[0] = point2( 0.25, 0.50);
+	points[0] = point3( 0.0, 0.0, 0.0);
 
 	for( int k = 1; k < NumPoints; ++k) {
-		int j = rand() % 3; // pick random vertex
+		int j = rand() % 4; // pick random vertex
 
 		// calculate halfway point between vertex and previous point
-		points[k] = ( points[k-1]+vertices[j])/2.0;
+		points[k] = ( points[k-1] + vertices[j] )/2.0;
 	}
  
 
