@@ -33,7 +33,7 @@ GLuint InitShader( const char* vShaderFile, const char* fShaderFile) {
 
 	for( int i = 0; i < 2; ++i) {
 		Shader& s = shaders[i];
-		s.source = readShaderSource( s.filename);
+		s.source = readSource( s.filename);
 		if( shaders[i].source == NULL) {
 			std::cerr << "Failed to read " << s.filename << std::endl;
 			exit( EXIT_FAILURE);
@@ -43,12 +43,12 @@ GLuint InitShader( const char* vShaderFile, const char* fShaderFile) {
 		glShaderSource( shader, 1, (const GLchar**) &s.source, NULL);
 		glCompileShader( shader);
 
-		GLuint compiled;
+		GLint compiled;
 		glGetShaderiv( shader, GL_COMPILE_STATUS, &compiled);
 		if( !compiled) {
 			std::cerr << s.filename << ", failed to compile:" << std::endl;
 			GLint logSize;
-			glGetShaderiv( shader, GL_INFO_LOG_LENGHT, &logSize);
+			glGetShaderiv( shader, GL_INFO_LOG_LENGTH, &logSize);
 			char* logMsg = new char[logSize];
 			glGetShaderInfoLog( shader, logSize, NULL, logMsg);
 			std::cerr << logMsg << std::endl;

@@ -1,17 +1,12 @@
 #include "pol.h"
+typedef vec2 point2;
 
 const int n_sides= 5;
 point2 vertices[n_sides+1];
 
-typedef vec2 point2;
-
 void genPoints() {
-	point2 origin = { 0, 0};
-	GLfloat pi = (GLfloat)M_PI;
-	vertices[0] = origin;
-	for( int i = -(pi/2), int k = 1; k <= n_sides; i+= pi/n_sides, ++k) {
-		vertices[k].x = sin(i);
-		vertices[k].y = cos(i);
+	vertices[0] = point2( 0, 0);
+	for( int i = -(M_PI/2), k = 1; k <= n_sides; i+= M_PI/n_sides, ++k) {
 	}
 }
 
@@ -38,6 +33,6 @@ void sendData() {
 void display() {
 	glClear( GL_COLOR_BUFFER_BIT);
 
-	glDrawArrays( GL_TRIANGLE_FAN, 0, (n_sides+1));
+	glDrawArrays( GL_TRIANGLE_FAN, 0, n_sides);
 	glFlush();
 }

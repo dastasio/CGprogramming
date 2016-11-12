@@ -5,6 +5,7 @@ int main( int argc, char* argv[]) {
 	glutInitDisplayMode( GLUT_RGBA);
 	glutInitWindowSize( 512, 512);
 	glutCreateWindow( argv[0]);
+	glewInit();
 
 	genPoints();
 	sendData();
