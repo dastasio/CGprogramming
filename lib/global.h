@@ -11,4 +11,6 @@
 #include "pol.h"
 #include "vec.h"
 
+#define BUFFER_OFFSET(i)  (( GLvoid*) (i))
+
 #endif // GLOBAL_H

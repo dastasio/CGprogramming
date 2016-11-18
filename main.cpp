@@ -7,7 +7,6 @@ int main( int argc, char* argv[]) {
 	glutCreateWindow( argv[0]);
 	glewInit();
 
-	genPoints();
 	sendData();
 
 	glutDisplayFunc( display);
