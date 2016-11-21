@@ -2,15 +2,14 @@
 #define POINTGEN_H
 #include "global.h"
 
-extern const int times_to_subdivide;
+extern const int n_sub;
 extern const int num_triangles;
 extern const int num_vertices;
 
-typedef vec2 point2;
-
 void init();
-void triangle(const point2 &a, const point2 &b, const point2 &c);
-void divide_triangle( const point2 &a, const point2 &b, const point2 &c, int k);
+void triangle( const vec3 &a, const vec3 &b,const vec3 &c);
+void tetra( vec3 a, vec3 b, vec3 c, vec3 d);
+void divide_tetra( vec3 a, vec3 b, vec3 c, vec3 d, int m);
 void display();
 
 #endif // POINTGEN_H
