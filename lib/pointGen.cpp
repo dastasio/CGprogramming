@@ -2,8 +2,9 @@
 typedef vec3 color3;
 typedef vec3 point3;
 
-const int n_sub = 5;
-const int num_triangles = 729; // 3^5 triangles
+const int n_sub = 4;
+const int num_tetrahedra = 256;
+const int num_triangles = 4 * num_tetrahedra; // 3^5 triangles
 const int num_vertices = 3 * num_triangles;
 int colorindex;
 vec3 points[num_vertices];
@@ -16,11 +17,8 @@ color3 base_colors[4] = {color3(1.0, 0.0, 0.0), color3(0.0, 1.0, 0.0),
 //! init
 
 void init() {
-	GLuint program = InitShader( "vshader.glsl", "fshader.glsl");
-	glUseProgram( program);
-	
 	GLuint vao;
-	glCreateVertexArrays(1, &vao);
+	glGenVertexArrays(1, &vao);
 	glBindVertexArray( vao);
 
 	vec3 v[4] = {
@@ -44,6 +42,8 @@ void init() {
 	glBufferSubData( GL_ARRAY_BUFFER, 0, sizeof(points), points);
 	glBufferSubData( GL_ARRAY_BUFFER, sizeof(points), sizeof(colors), colors);
 	
+	GLuint program = InitShader( "vshader.glsl", "fshader.glsl");
+	glUseProgram( program);
 
 	GLuint loc, loc2;
 	loc = glGetAttribLocation( program, "vPosition");
@@ -54,33 +54,29 @@ void init() {
 	glEnableVertexAttribArray( loc2);
 	glVertexAttribPointer( loc2, 3, GL_FLOAT, GL_FALSE, 0,
 						   BUFFER_OFFSET( sizeof( points)));
-	
 
+	glEnable( GL_DEPTH_TEST);
 }
 
 // ------------------------------------------------------------------------------
 //! specifies vertices for a triangle
-void triangle( const vec3 &a, const vec3 &b,const vec3 &c) {
+void triangle( const vec3 &a, const vec3 &b,const vec3 &c, const int color) {
 	static int Index = 0;
-	colors[ Index] = base_colors[colorindex];
+	colors[ Index] = base_colors[color];
 	points[ Index++] = a;
-	colors[ Index] = base_colors[colorindex];
+	colors[ Index] = base_colors[color];
 	points[ Index++] = b;
-	colors[ Index] = base_colors[colorindex];
+	colors[ Index] = base_colors[color];
 	points[ Index++] = c;
 }
 
 // -------------------------------------------------------------------------------
 //! draws a tetrahedron
 void tetra( vec3 a, vec3 b, vec3 c, vec3 d) {
-	colorindex = 0;
-	triangle( a, b, c);
-	colorindex = 1;
-	triangle( a, c, d);
-	colorindex = 2;
-	triangle( a, d, b);
-	colorindex = 3;
-	triangle( b, d, c);
+	triangle( a, b, c, 0);
+	triangle( a, c, d, 1);
+	triangle( a, d, b, 2);
+	triangle( b, d, c, 3);
 }
 
 // ------------------------------------------------------------------------------
@@ -112,7 +108,12 @@ void divide_tetra( vec3 a, vec3 b, vec3 c, vec3 d, int m) {
 // -------------------------------------------------------------------------------
 //! renders image
 void display() {
-	glClear(GL_COLOR_BUFFER_BIT);
-	glDrawArrays( GL_TRIANGLES, 0, num_triangles);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+	for( int i = 0; i < num_vertices; ++i) {
+		if( points[i].y >= 0.5) {
+			printf( "v%d\n", i);
+		}
+	}
+	glDrawArrays( GL_POINTS, 0, num_triangles);
 	glFlush();
 }
