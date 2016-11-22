@@ -6,8 +6,8 @@ int main( int argc, char* argv[]) {
 	glutInitWindowSize( 512, 512);
 	glutCreateWindow( argv[0]);
 	glewInit();
-
-	sendData();
+	
+	init();
 
 	glutDisplayFunc( display);
 	glutMainLoop();

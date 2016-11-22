@@ -1,3 +1,6 @@
+in vec3 color;
+out vec4 out_color;
+
 void main() {
-	gl_FragColor = vec4( 0.5, 0.5, 0.5, 1.0);
+	out_color = ( color.rgb, 1.0);
 }

@@ -8,7 +8,7 @@
 #include <GL/glut.h>
 #include <iostream>
 #include "davide.h"
-#include "pol.h"
+#include "color.h"
 #include "vec.h"
 
 #define BUFFER_OFFSET(i)  (( GLvoid*) (i))
