@@ -22,11 +22,11 @@ void init() {
 	glBindVertexArray( vao);
 
 	vec3 v[4] = {
-		point3( -1.0, -1.0, -1.0),
-		point3( -1.0,  1.0, -1.0),
-		point3( -1.0,  0.0, -1.0),
-		point3(  0.0,  0.0,  1.0) 
-	};
+	vec3( 0.0, 0.0, -1.0 ),
+	vec3( 0.0, 0.942809, 0.333333 ),
+	vec3( -0.816497, -0.471405, 0.333333 ),
+	vec3( 0.816497, -0.471405, 0.333333 )
+    };	
 
 	divide_tetra( v[0], v[1], v[2], v[3], n_sub);
 
@@ -103,17 +103,13 @@ void divide_tetra( vec3 a, vec3 b, vec3 c, vec3 d, int m) {
 		divide_tetra( mid[2], mid[5], mid[5], d, m-1);
 	}
 	else tetra( a, b, c, d);
+	glClearColor(1.0, 1.0, 1.0, 1.0);
 }
 
 // -------------------------------------------------------------------------------
 //! renders image
 void display() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
-	for( int i = 0; i < num_vertices; ++i) {
-		if( points[i].y >= 0.5) {
-			printf( "v%d\n", i);
-		}
-	}
-	glDrawArrays( GL_POINTS, 0, num_triangles);
+	glDrawArrays( GL_TRIANGLES, 0, num_triangles);
 	glFlush();
 }
