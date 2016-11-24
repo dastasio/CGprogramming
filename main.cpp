@@ -16,6 +16,6 @@ int main( int argc, char** argv) {
 	GLuint loc;
 	loc = glGetAttribLocation(program, "vPosition");
 	glEnableVertexAttribArray(loc);
-	glVertexAttribPointer( loc, 2, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
+	glVertexAttribPointer( loc, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
 	glutMainLoop();
 }
