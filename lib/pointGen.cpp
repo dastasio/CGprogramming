@@ -22,10 +22,10 @@ void init() {
 	glBindVertexArray( vao);
 
 	vec3 v[4] = {
-	vec3( 0.0, 0.0, -1.0 ),
-	vec3( 0.0, 0.942809, 0.333333 ),
-	vec3( -0.816497, -0.471405, 0.333333 ),
-	vec3( 0.816497, -0.471405, 0.333333 )
+	vec3(  0.0,  0.0, -1.0 ),
+	vec3(  0.0,  1.0,  0.0 ),
+	vec3( -1.0, -1.0,  0.0 ),
+	vec3(  1.0, -1.0,  0.0 ) 
     };	
 
 	divide_tetra( v[0], v[1], v[2], v[3], n_sub);
@@ -56,6 +56,7 @@ void init() {
 						   BUFFER_OFFSET( sizeof( points)));
 
 	glEnable( GL_DEPTH_TEST);
+	glClearColor(0.1, 0.1, 0.1, 1.0);
 }
 
 // ------------------------------------------------------------------------------
@@ -100,10 +101,9 @@ void divide_tetra( vec3 a, vec3 b, vec3 c, vec3 d, int m) {
 		divide_tetra( a, mid[0], mid[1], mid[2], m-1);
 		divide_tetra( mid[0], b, mid[3], mid[5], m-1);
 		divide_tetra( mid[1], mid[3], c, mid[4], m-1);
-		divide_tetra( mid[2], mid[5], mid[5], d, m-1);
+		divide_tetra( mid[2], mid[4], mid[5], d, m-1);
 	}
 	else tetra( a, b, c, d);
-	glClearColor(1.0, 1.0, 1.0, 1.0);
 }
 
 // -------------------------------------------------------------------------------
