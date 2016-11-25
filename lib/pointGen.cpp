@@ -12,7 +12,7 @@ void init() {
 	point3 vertices[4]= { point3(  0.0,  0.0,  1.0), 
 						  point3(  1.0, -1.0, -1.0), 
 						  point3(  0.0,  1.0, -1.0),
-						  point3(  0.0,  0.0,  1.0) };
+						  point3( -1.0, -1.0, -1.0) };
 
 	points[0] = point3( 0.0, 0.0, 0.0);
 
