@@ -1,7 +1,7 @@
 #include "davide.h"
 
 // read file in a NULL-terminated string
-static char* readShaderSource( const char* shaderFile) {
+char* readShaderSource( const char* shaderFile) {
 	FILE* fp = fopen( shaderFile, "r");
 
 	if( fp == NULL) { return NULL; }
@@ -15,7 +15,7 @@ static char* readShaderSource( const char* shaderFile) {
 
 	buf[size] = '\0';
 	fclose(fp);
-	
+
 	// DEBUGGING HELPprintf( "%s\n\n", buf);
 	return buf;
 }
@@ -85,4 +85,3 @@ GLuint InitShader( const char* vShaderFile, const char* fShaderFile) {
 
 	return program;
 }
-
