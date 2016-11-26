@@ -2,15 +2,10 @@
 #define POINTGEN_H
 #include "global.h"
 
-extern const int n_sub;
-extern const int num_tetrahedra;
-extern const int num_triangles;
-extern const int num_vertices;
+extern int c, w, h;
 
-void init();
-void triangle( const vec3 &a, const vec3 &b,const vec3 &c, const int color);
-void tetra( vec3 a, vec3 b, vec3 c, vec3 d);
-void divide_tetra( vec3 a, vec3 b, vec3 c, vec3 d, int m);
+void init( bool);
+void mouse( int button, int state, int x, int y);
 void display();
 
 #endif // POINTGEN_H
