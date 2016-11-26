@@ -8,5 +8,6 @@ void init( bool);
 void mouse( int button, int state, int x, int y);
 void display();
 void idle();
+void demo_menu( int id);
 
 #endif // POINTGEN_H

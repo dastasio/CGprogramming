@@ -5,9 +5,10 @@ vec2 tmp_p[3];
 int w = 512, h = 512;
 int c = 0;
 GLint windowHeight, windowWidth;
+bool rot = true;
 
 const float DegreesToRadians = M_PI / 180.0;
-float angle = 0.001*DegreesToRadians;
+float angle = 0.15*DegreesToRadians;
 
 void init( bool firstRun) {
 	if( firstRun) {
@@ -33,10 +34,6 @@ void init( bool firstRun) {
 
 
 void mouse( int button, int state, int x, int y) {
-	if( button == GLUT_RIGHT_BUTTON && state == GLUT_DOWN) {
-		exit(0);
-	}
-
 	if( button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {
 		tmp_p[c].x = (float) x / (w/2) - 1.0;
 		tmp_p[c].y = (float) (h-y) / (h/2) - 1.0;
@@ -58,19 +55,38 @@ void reshape( GLsizei w, GLsizei h) {
 	glViewport( 0, 0, windowWidth, windowHeight);
 }
 
+void demo_menu( int id) {
+		switch( id) {
+			case 1:
+				exit(0);
+				break;
+
+			case 2:
+				rot = true;
+				break;
+
+			case 3:
+				rot = false;
+				break;
+			}
+			glutPostRedisplay();
+}
+
 // -------------------------------------------------------------------------------
 //! renders image
 void display() {
-	for( int i = 0; i < 3; ++i) {
-		float x = cos( angle) * points[i].x - sin( angle) * points[i].y;
-		float y = sin( angle) * points[i].x + cos( angle) * points[i].y;
-		points[i].x = x;
-		points[i].y = y;
+	if( rot) {
+			for( int i = 0; i < 3; ++i) {
+			float x = cos( angle) * points[i].x - sin( angle) * points[i].y;
+			float y = sin( angle) * points[i].x + cos( angle) * points[i].y;
+			points[i].x = x;
+			points[i].y = y;
+			}
+			init( false);
 	}
-	init( false);
 	glClear(GL_COLOR_BUFFER_BIT);
 	glDrawArrays( GL_TRIANGLES, 0, 3);
-	glFlush();
+	glutSwapBuffers();
 }
 
 void idle() {
