@@ -9,11 +9,11 @@
 // including opengl libraries
 #include <GL/glew.h>
 #include <GL/gl.h>
+#include <GL/freeglut.h>
 #include <GL/glut.h>
 
 // including custom library
 #include "vec.h"
-#include "pointGen.h"
 #include "davide.h"
 
 
