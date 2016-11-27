@@ -16,5 +16,5 @@
 #include "vec.h"
 #include "davide.h"
 
-
+const float dToRadians = M_PI / 180.0;
 #endif // GLOBAL_H

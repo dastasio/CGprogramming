@@ -1,6 +1,6 @@
 cmake_minimum_required( VERSION 3.0)
 project( CGprog)
-set( EXEC_NAME "name")
+set( EXEC_NAME "turtle")
 set( SRC_lib "${PROJECT_SOURCE_DIR}/lib")
 set( CMAKE_BINARY_DIR "${PROJECT_SOURCE_DIR}/bin")
 set( SRC_exec main.cpp)
