@@ -21,6 +21,16 @@ struct vec2 {
 	{ x = v.x;  y = v.y;  }
 
 	//
+	// -- bool Operators
+	//
+
+	vec2 operator == ( const vec2& v)
+	{	return ( x == v.x) && ( y == v.y); }
+
+	vec2 operator != ( const vec2& v)
+	{	return ( x != v.x) && (y != v.y); }
+
+	//
 	//  --- Indexing Operator ---
 	//
 

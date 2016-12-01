@@ -15,6 +15,9 @@
 // including custom library
 #include "vec.h"
 #include "davide.h"
+#include "snowflake.h"
+#include "run.h"
 
+const float degreesToRadians = M_PI / 180.0;
 
 #endif // GLOBAL_H
