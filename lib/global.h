@@ -12,6 +12,11 @@
 #include <GL/freeglut.h>
 #include <GL/glut.h>
 
+// glm library
+#include <glm/vec3.hpp>
+#include <glm/vec4.hpp>
+#include <glm/mat4x4.cpp>
+
 // including custom library
 #include "vec.h"
 #include "davide.h"
